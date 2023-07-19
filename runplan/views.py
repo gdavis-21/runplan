@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate as authenticateUser
 from django.contrib.auth import login as auth_login
 from django.urls import reverse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
-from runplan.models import Goal, Workout
+from runplan.models import Goal, Workout, Race
+from datetime import datetime
 
 def index(request):
     """
@@ -76,13 +77,40 @@ def fetchUserData(request):
     }
     """
     if request.method == "GET":
+        user = authenticateUser(request, username="admin", password="admin")
+        auth_login(request, user)
         if request.user.is_authenticated:
             goals = [goal.toDictionary() for goal in (Goal.objects.filter(user=request.user))]
             workouts = [workout.toDictionary() for workout in (Workout.objects.filter(user=request.user))]
-            return JsonResponse({
+            response =  JsonResponse({
                 "goals": goals,
                 "workouts": workouts
             }   ,safe=False)
+            return response
         else:
-            # User is not authenticated.
-            return HttpResponse("Unauthenticated", stauts=403)
+            response = HttpResponse("Unauthenticated", status=403)
+            return response
+
+def fetchUpcomingRaces(request):
+    """
+    Purpose: Fetch upcoming races from DB.
+    Params:
+        request: (HttpRequest) - An HttpRequest object.
+    Returns: (JsonResponse) - Returns a JSON object with upcoming races.
+    e.g. [
+        {
+            "name": ... (String object)
+            "date": ... (Date object)
+        },
+        {
+            "name": ... (String object)
+            "date": ... (Date object)
+        }
+    """
+    if request.method == "POST":
+        now = datetime.now()
+        upcomingRaces = [race.toDictionary() for race in Race.objects.filter(date__gte=now.date())]
+        response = JsonResponse([
+            upcomingRaces
+        ], safe=False)
+        return response
