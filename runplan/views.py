@@ -107,10 +107,10 @@ def fetchUpcomingRaces(request):
             "date": ... (Date object)
         }
     """
-    if request.method == "POST":
+    if request.method == "GET":
         now = datetime.now()
         upcomingRaces = [race.toDictionary() for race in Race.objects.filter(date__gte=now.date())]
-        response = JsonResponse([
+        response = JsonResponse(
             upcomingRaces
-        ], safe=False)
+        , safe=False)
         return response
