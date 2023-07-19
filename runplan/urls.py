@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path("authenticate/", views.authenticate, name="authenticate"),
-    path("fetchUserData/", views.fetchUserData, name="fetchUserData")
+    path("fetchUserData/", views.fetchUserData, name="fetchUserData"),
+    path("fetchUpcomingRaces/", views.fetchUpcomingRaces, name="fetchUpcomingRaces")
 ]
