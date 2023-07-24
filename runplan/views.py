@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from runplan.models import Goal, Workout, Race
 from datetime import datetime
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 def index(request):
     """
@@ -79,7 +80,7 @@ def fetchUserData(request):
     if request.method == "GET":
         user = authenticateUser(request, username="admin", password="admin")
         auth_login(request, user)
-        if request.user.is_authenticated:
+        if request.user:
             goals = [goal.toDictionary() for goal in (Goal.objects.filter(user=request.user))]
             workouts = [workout.toDictionary() for workout in (Workout.objects.filter(user=request.user))]
             response =  JsonResponse({
@@ -114,3 +115,41 @@ def fetchUpcomingRaces(request):
             upcomingRaces
         , safe=False)
         return response
+
+def updateUserGoals(request):
+    """
+    Update a user's goals (includes creation of a goal) in the DB.
+    Params: 
+        request (HttpResponse) - HttpResponse (containing POST data)
+    Returns: 
+        HttpResponse 200 for success, else HttpResponse 403
+    """
+    if request.method == "POST":
+        if request.user:
+            for key in request.POST:
+                goal = Goal.objects.filter(user=request.user)[int(key)]
+                goal.name = request.POST[key]
+                goal.save()
+            return HttpResponse()
+        else:
+            return HttpResponse("Unauthenticated", status=403)
+    else:
+        return HttpResponse("Unauthenticated", status=403)
+
+@ensure_csrf_cookie
+def fetchCSRFToken(request):
+    """
+    Fetch the CSRF token associated with a user's session.
+    Params: 
+        request (HttpResponse) - An HttpResponse object.
+    Returns: On success, a HttpResponse containing the CSRF token as a cookie.
+             On failure, an HttpResponse object with status code 403.
+    e.g.
+    {
+    "csrfToken": ....
+    }
+    """
+    if request.method == "GET" and request.user:
+            return HttpResponse()
+    else:
+        return HttpResponse("Unauthorized", status=403)

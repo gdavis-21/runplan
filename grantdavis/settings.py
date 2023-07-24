@@ -27,9 +27,16 @@ SECRET_KEY = constants.SECRET_KEY
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
     "http://192.168.1.246:5173",
-    "http://192.168.1.247:5173"
+    "http://192.168.1.247:5173",
+    "http://localhost:8000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
 ]
 
 
