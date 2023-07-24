@@ -124,17 +124,32 @@ def updateUserGoals(request):
     Returns: 
         HttpResponse 200 for success, else HttpResponse 403
     """
-    if request.method == "POST":
-        if request.user:
-            for key in request.POST:
-                goal = Goal.objects.filter(user=request.user)[int(key)]
-                goal.name = request.POST[key]
-                goal.save()
-            return HttpResponse()
-        else:
-            return HttpResponse("Unauthenticated", status=403)
+    if request.method == "POST" and request.user:
+        goals = Goal.objects.filter(user=request.user)
+        for key in request.POST:
+            goal = goals[int(key)]
+            goal.name = request.POST[key]
+            goal.save()
+        return HttpResponse()
     else:
         return HttpResponse("Unauthenticated", status=403)
+
+def addUserGoal(request):
+    """
+    Adds a goal to the list of goals associated with a user.
+    Params:
+        request (HttpRequest) An HttpRequest object.
+    Returns:
+        On success, HttpResponse with successful status code (i.e. 200)
+        On failure, HttpResponse with successful status code (i.e. 403)
+    """
+    if request.method == "POST" and request.user:
+        goal = Goal(name="Example Goal", isComplete=False, user=request.user)
+        goal.save()
+        return HttpResponse()
+    else:
+        return HttpResponse("Unauthorized", status=403)
+
 
 @ensure_csrf_cookie
 def fetchCSRFToken(request):
@@ -150,6 +165,6 @@ def fetchCSRFToken(request):
     }
     """
     if request.method == "GET" and request.user:
-            return HttpResponse()
+        return HttpResponse()
     else:
         return HttpResponse("Unauthorized", status=403)
