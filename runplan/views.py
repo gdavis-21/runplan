@@ -128,8 +128,11 @@ def updateUserGoals(request):
         goals = Goal.objects.filter(user=request.user)
         for key in request.POST:
             goal = goals[int(key)]
-            goal.name = request.POST[key]
-            goal.save()
+            if request.POST[key] == "":
+                goal.delete()
+            else:
+                goal.name = request.POST[key]
+                goal.save()
         return HttpResponse()
     else:
         return HttpResponse("Unauthenticated", status=403)
