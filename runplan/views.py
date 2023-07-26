@@ -1,13 +1,13 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate as authenticateUser
-from django.contrib.auth import login as auth_login
-from django.urls import reverse
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from runplan.models import Goal, Workout, Race
 from datetime import datetime
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     """
@@ -15,17 +15,15 @@ def index(request):
     Params:
         request: (HttpRequest) - An HttpRequest object.
     Returns:
-        (HttpResponseRedirect) - Redirects to the login page or to the dashboard page.
+        (HttpResponse) - If user is authenticated, returns a successful HttpResponse, else returns forbidden HttpResponse.
     """
     if request.user.is_authenticated:
-        url = reverse("dashboard")
-        return HttpResponseRedirect(url)
+        return HttpResponse("Success")
     else:
-        url = reverse("login")
-        return HttpResponseRedirect(url)
+        return HttpResponse("Forbidden", status=403)
 
 
-def authenticate(request):
+def authenticateUser(request):
     """
     Purpose: Authenticates a user's login credentials. Attaches a session to the user's instance.
     Params:
@@ -37,17 +35,17 @@ def authenticate(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(username=username, password=password)
         if user is not None:
-            auth_login(request, user)
-            return HttpResponse("Success", status=200)
+            login(request, user)
+            return HttpResponse("Success")
         else:
             # User did not enter successful 'username' / 'password' combination
             return HttpResponse("Unauthorized", status=403)
     else:
         # Request's method is not "POST"
         return HttpResponse("Unauthenticated", status=403)
-    
+
 def fetchUserData(request):
     """
     Purpose: Fetch user data (workouts, goals) from DB.
@@ -78,9 +76,7 @@ def fetchUserData(request):
     }
     """
     if request.method == "GET":
-        user = authenticateUser(request, username="admin", password="admin")
-        auth_login(request, user)
-        if request.user:
+        if request.user.is_authenticated:
             goals = [goal.toDictionary() for goal in (Goal.objects.filter(user=request.user))]
             workouts = [workout.toDictionary() for workout in (Workout.objects.filter(user=request.user))]
             response =  JsonResponse({
@@ -120,11 +116,11 @@ def updateUserGoals(request):
     """
     Update a user's goals (includes creation of a goal) in the DB.
     Params: 
-        request (HttpResponse) - HttpResponse (containing POST data)
+        request (HttpResponse) - HttpRequest (containing POST data)
     Returns: 
         HttpResponse 200 for success, else HttpResponse 403
     """
-    if request.method == "POST" and request.user:
+    if request.method == "POST" and request.user.is_authenticated:
         goals = Goal.objects.filter(user=request.user)
         for key in request.POST:
             goal = goals[int(key)]
@@ -159,7 +155,7 @@ def fetchCSRFToken(request):
     """
     Fetch the CSRF token associated with a user's session.
     Params: 
-        request (HttpResponse) - An HttpResponse object.
+        request (HttpResponse) - An HttpRequest object.
     Returns: On success, a HttpResponse containing the CSRF token as a cookie.
              On failure, an HttpResponse object with status code 403.
     e.g.
@@ -168,6 +164,6 @@ def fetchCSRFToken(request):
     }
     """
     if request.method == "GET" and request.user:
-        return HttpResponse()
+        return HttpResponse("Success")
     else:
         return HttpResponse("Unauthorized", status=403)

@@ -119,6 +119,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
