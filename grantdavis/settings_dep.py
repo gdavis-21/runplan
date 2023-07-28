@@ -33,7 +33,7 @@ CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = [".herokuapp.com", "https://gdavis-21.github.io/runplan-frontend"]
 CORS_ALLOWED_ORIGINS = [
     ".herokuapp.com",
-    "https://gdavis-21.github.io/runplan-frontend/"
+    "https://gdavis-21.github.io/runplan-frontend"
 ]
 
 
