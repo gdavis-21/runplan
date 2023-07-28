@@ -162,7 +162,7 @@ def fetchCSRFToken(request):
     "csrfToken": ....
     }
     """
-    if request.method == "GET" and request.user:
+    if request.method == "GET":
         response = HttpResponse("Success")
         response.set_cookie('csrftoken', request.COOKIES['csrftoken'], samesite='None', secure=True)
         return HttpResponse("Success")
