@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://run-plan-app-cd5c57bf131d.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com', 'https://run-plan-app-cd5c57bf131d.herokuapp.com']
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = []
