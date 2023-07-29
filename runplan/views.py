@@ -9,7 +9,7 @@ from datetime import datetime
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_exempt
 
-
+@ensure_csrf_cookie
 def index(request):
     """
     Purpose: Redirects user to the login page (if not authenticated), or redirect to dashboard.
