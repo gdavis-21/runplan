@@ -27,13 +27,16 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'https://run-plan-app-cd5c57bf131d.herokuapp.com', 'http://192.168.1.247:3000']
+ALLOWED_HOSTS = ['.herokuapp.com', 'https://run-plan-frontend-972a41e31320.herokuapp.com', 'http://192.168.1.247:3000']
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = False
-CSRF_TRUSTED_ORIGINS = ['.herokuapp.co', 'http://192.168.1.247:3000']
+CSRF_COOKIE_SECURE = True 
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_TRUSTED_ORIGINS = ['.herokuapp.com', 'http://192.168.1.247:3000', 'https://run-plan-frontend-972a41e31320.herokuapp.com']
 CORS_ALLOWED_ORIGINS = [
-    ".herokuapp.com",
-    'http://192.168.1.247:3000'
+    '.herokuapp.com',
+    'http://192.168.1.247:3000',
+    'https://run-plan-frontend-972a41e31320.herokuapp.com'
 ]
 
 
