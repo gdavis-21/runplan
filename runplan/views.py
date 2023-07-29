@@ -21,7 +21,7 @@ def index(request):
     else:
         return HttpResponse("Forbidden", status=403)
 
-
+@ensure_csrf_cookie
 def authenticateUser(request):
     """
     Purpose: Authenticates a user's login credentials. Attaches a session to the user's instance.
@@ -147,13 +147,12 @@ def addUserGoal(request):
     else:
         return HttpResponse("Unauthorized", status=403)
 
-@ensure_csrf_cookie
 def fetchCSRFToken(request):
     """
     Fetch the CSRF token associated with a user's session.
     Params: 
         request (HttpResponse) - An HttpRequest object.
-    Returns: On success, a HttpResponse containing the CSRF token as a cookie.
+    Returns: On success, a HttpResponse containing the CSRF token imbeded as a hidden html element.
              On failure, an HttpResponse object with status code 403.
     e.g.
     {
@@ -161,8 +160,6 @@ def fetchCSRFToken(request):
     }
     """
     if request.method == "GET":
-        # response = HttpResponse("Success")
-        # response.set_cookie('csrftoken', request.COOKIES['csrftoken'], samesite='None', secure=True)
         return render(request, "runplan/fetchCSRFToken.html")
     else:
         return HttpResponse("Unauthorized", status=403)
