@@ -38,8 +38,6 @@ def authenticateUser(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            if request.user.is_authenticated:
-                print("-------------------------------")
             return HttpResponse("Success")
         else:
             # User did not enter successful 'username' / 'password' combination
