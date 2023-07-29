@@ -21,7 +21,6 @@ def index(request):
     else:
         return HttpResponse("Forbidden", status=403)
 
-@ensure_csrf_cookie
 def authenticateUser(request):
     """
     Purpose: Authenticates a user's login credentials. Attaches a session to the user's instance.
