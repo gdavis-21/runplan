@@ -7,8 +7,6 @@ from django.http import JsonResponse
 from runplan.models import Goal, Workout, Race
 from datetime import datetime
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     """
@@ -24,7 +22,6 @@ def index(request):
         return HttpResponse("Forbidden", status=403)
 
 
-@csrf_exempt
 def authenticateUser(request):
     """
     Purpose: Authenticates a user's login credentials. Attaches a session to the user's instance.
@@ -114,7 +111,6 @@ def fetchUpcomingRaces(request):
         , safe=False)
         return response
 
-@csrf_exempt
 def updateUserGoals(request):
     """
     Update a user's goals (includes creation of a goal) in the DB.
@@ -134,9 +130,7 @@ def updateUserGoals(request):
                 goal.save()
         return HttpResponse()
     else:
-        return HttpResponse("Unauthenticated", status=403)
-
-@csrf_exempt()
+        return HttpResponse("Unauthenticated", status=403)   
 def addUserGoal(request):
     """
     Adds a goal to the list of goals associated with a user.

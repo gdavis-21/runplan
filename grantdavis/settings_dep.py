@@ -25,17 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'https://run-plan-app-cd5c57bf131d.herokuapp.com', "https://gdavis-21.github.io/runplan-frontend", "https://runplan-frontend.vercel.app", ".vercel.app"]
+ALLOWED_HOSTS = ['.herokuapp.com', 'https://run-plan-app-cd5c57bf131d.herokuapp.com', 'http://192.168.1.247:3000']
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = False
-CSRF_TRUSTED_ORIGINS = [".herokuapp.com", "https://gdavis-21.github.io/runplan-frontend", "https://runplan-frontend.vercel.app", ".vercel.app"]
+CSRF_TRUSTED_ORIGINS = [".herokuapp.com", "'http://192.168.1.247:3000'"]
 CORS_ALLOWED_ORIGINS = [
     ".herokuapp.com",
-    "https://gdavis-21.github.io/runplan-frontend",
-    "https://runplan-frontend.vercel.app",
-    ".vercel.app"
+    "'http://192.168.1.247:3000'"
 ]
 
 
