@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['.herokuapp.com', 'https://run-plan-frontend-972a41e31320.herok
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = True 
+CSRF_USE_SESSIONS = True
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True 
 SESSION_COOKIE_SAMESITE = 'None'
@@ -56,8 +57,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
