@@ -30,10 +30,10 @@ DEBUG = False
 ALLOWED_HOSTS = ['.herokuapp.com', 'https://run-plan-app-cd5c57bf131d.herokuapp.com', 'http://192.168.1.247:3000']
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_HTTPONLY = False
-CSRF_TRUSTED_ORIGINS = [".herokuapp.com", "'http://192.168.1.247:3000'"]
+CSRF_TRUSTED_ORIGINS = ['.herokuapp.co', 'http://192.168.1.247:3000']
 CORS_ALLOWED_ORIGINS = [
     ".herokuapp.com",
-    "'http://192.168.1.247:3000'"
+    'http://192.168.1.247:3000'
 ]
 
 
