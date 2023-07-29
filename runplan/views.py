@@ -146,6 +146,7 @@ def addUserGoal(request):
     else:
         return HttpResponse("Unauthorized", status=403)
 
+@ensure_csrf_cookie
 def fetchCSRFToken(request):
     """
     Fetch the CSRF token associated with a user's session.
@@ -159,6 +160,6 @@ def fetchCSRFToken(request):
     }
     """
     if request.method == "GET":
-        return render(request, "runplan/fetchCSRFToken.html")
+        return HttpResponse("Success")
     else:
-        return HttpResponse("Unauthorized", status=403)
+        return HttpResponse("Unauthorized", status=405)
