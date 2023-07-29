@@ -161,8 +161,8 @@ def fetchCSRFToken(request):
     }
     """
     if request.method == "GET":
-        response = HttpResponse("Success")
+        # response = HttpResponse("Success")
         # response.set_cookie('csrftoken', request.COOKIES['csrftoken'], samesite='None', secure=True)
-        return response
+        return render(request, "fetchCSRFToken.html")
     else:
         return HttpResponse("Unauthorized", status=403)
