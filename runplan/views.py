@@ -162,7 +162,7 @@ def fetchCSRFToken(request):
     }
     """
     if request.method == "GET":
-        print("---------------------------", get_token())
+        print("---------------------------", get_token(request))
         return render(request, "runplan/fetchCSRFToken.html")
     else:
         return HttpResponse("Unauthorized", status=405)
