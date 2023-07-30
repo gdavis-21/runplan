@@ -112,7 +112,7 @@ def fetchUpcomingRaces(request):
         , safe=False)
         return response
 
-
+@csrf_exempt
 def updateUserGoals(request):
     """
     Update a user's goals (includes creation of a goal) in the DB.
@@ -134,6 +134,7 @@ def updateUserGoals(request):
     else:
         return HttpResponse("Unauthenticated", status=403)  
 
+@csrf_exempt
 def addUserGoal(request):
     """
     Adds a goal to the list of goals associated with a user.
