@@ -6,8 +6,8 @@ from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from runplan.models import Goal, Workout, Race
 from datetime import datetime
-from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_exempt
+from django.middleware.csrf import get_token
 
 def index(request):
     """
@@ -162,6 +162,7 @@ def fetchCSRFToken(request):
     }
     """
     if request.method == "GET":
+        print("---------------------------", get_token())
         return render(request, "runplan/fetchCSRFToken.html")
     else:
         return HttpResponse("Unauthorized", status=405)
