@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = True
 
 CSRF_COOKIE_HTTPONLY = False
-CSRF_USE_SESSIONS = True
+CSRF_USE_SESSIONS = False
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'https://run-plan-frontend-972a41e31320.herokuapp.com', 'http://192.168.1.247:3000']
 CORS_ALLOW_CREDENTIALS = True
