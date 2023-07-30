@@ -22,6 +22,7 @@ def index(request):
     else:
         return HttpResponse("Forbidden", status=403)
 
+@csrf_exempt
 def authenticateUser(request):
     """
     Purpose: Authenticates a user's login credentials. Attaches a session to the user's instance.
@@ -149,7 +150,6 @@ def addUserGoal(request):
     else:
         return HttpResponse("Unauthorized", status=403)
 
-csrf_exempt
 def fetchCSRFToken(request):
     """
     Fetch the CSRF token associated with a user's session.
